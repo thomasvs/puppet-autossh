@@ -1,0 +1,8 @@
+name         'adcade-autossh'
+version      '0.1.0'
+summary      'AutoSSH upstart service, for port forwarding thru firewall'
+description  'AutoSSH upstart service, for port forwarding thru firewall'
+author       'Yangming Huang'
+license      'MIT'
+project_page 'https://github.com/Adcade/puppet-autossh'
+dependency   'puppetlabs/stdlib'
