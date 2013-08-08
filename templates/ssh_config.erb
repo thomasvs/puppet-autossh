@@ -1,0 +1,10 @@
+ExitOnForwardFailure yes
+CheckHostIP no
+StrictHostKeyChecking no
+UserKnownHostsFile /dev/null
+BatchMode yes
+RemoteForward <% if @bind_addr -%><%= @bind_addr %>:<% end -%><%= @remote_port %> <%= @host %>:<%= @host_port %>
+Protocol 2
+TCPKeepAlive yes
+ServerAliveInterval 60
+ServerAliveCountMax=3
