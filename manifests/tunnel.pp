@@ -21,7 +21,9 @@ define autossh::tunnel (
 ) {
 
   if (!$remote_user) {
-    $remote_user = $user
+    $real_remote_user = $user
+  } else {
+    $real_remote_user = $remote_user
   }
 
   $ssh_config = "/opt/autossh/${service}"
