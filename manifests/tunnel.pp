@@ -7,7 +7,7 @@ define autossh::tunnel (
   $bind_addr   = undef,
   $host        = "localhost",
   $host_port   = 22,
-  $remote_user = $user,
+  $remote_user = undef,
   $remote_host,
   $remote_port,
   $monitor_port        = 0,
@@ -19,6 +19,10 @@ define autossh::tunnel (
   $autossh_maxlifetime = undef,
   $autossh_maxstart    = undef,
 ) {
+
+  if (!$remote_user) {
+    $remote_user = $user
+  }
 
   $ssh_config = "/opt/autossh/${service}"
 
