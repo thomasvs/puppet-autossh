@@ -11,6 +11,7 @@ define autossh::tunnel (
   $remote_host,
   $remote_port,
   $monitor_port        = 0,
+  $remote_forwarding   = true,
   $autossh_background  = false,
   $autossh_gatetime    = undef,
   $autossh_logfile     = undef,
@@ -28,12 +29,20 @@ define autossh::tunnel (
 
   $ssh_config = "/opt/autossh/${service}"
 
+  $template_file = undef
+
+  if $remote_forwarding == true {
+    $template_file = 'autossh/remoteforward.config.erb'
+  } else {
+    $template_file = 'autossh/localforward.config.erb'
+  }
+
   file { $ssh_config:
     ensure  => file,
     path    => $ssh_config,
     owner   => $user,
     group   => $group,
-    content => template('autossh/ssh_config.erb'),
+    content => template($template_file),
     require => File["/opt/autossh/"],
   }
 
