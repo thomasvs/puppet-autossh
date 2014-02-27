@@ -1,13 +1,13 @@
 define autossh::tunnel (
-  $service     = $title,
-  $ensure      = 'running',
-  $user        = "root",
-  $group       = "root",
-  $ssh_id_file = "~/.ssh/id_rsa",
-  $bind_addr   = undef,
-  $host        = "localhost",
-  $host_port   = 22,
-  $remote_user = undef,
+  $service             = $title,
+  $ensure              = 'running',
+  $user                = 'root',
+  $group               = 'root',
+  $ssh_id_file         = '~/.ssh/id_rsa',
+  $bind_addr           = undef,
+  $host                = 'localhost',
+  $host_port           = 22,
+  $remote_user         = undef,
   $remote_host,
   $remote_port,
   $monitor_port        = 0,
@@ -36,7 +36,7 @@ define autossh::tunnel (
       owner   => $user,
       group   => $group,
       content => template('autossh/remoteforward.config.erb'),
-      require => File["/opt/autossh/"],
+      require => File['/opt/autossh/'],
     }
   } else {
     file { $ssh_config:
@@ -45,7 +45,7 @@ define autossh::tunnel (
       owner   => $user,
       group   => $group,
       content => template('autossh/localforward.config.erb'),
-      require => File["/opt/autossh/"],
+      require => File['/opt/autossh/'],
     }
   }
 
