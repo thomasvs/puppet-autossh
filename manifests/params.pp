@@ -7,13 +7,16 @@ class autossh::params {
     /^(RedHat|CentOS)$/: {
       if $::operatingsystemmajrelease == '6' {
         $init = 'upstart-notnative'
+        $configdir = '/etc/autossh'
       } else {
         fail('Unsupported RedHat/CentOS version')
       }
     }
     default: {
       # FIXME: this module was designed to use upstart
-        $init = 'upstart'
+      $init = 'upstart'
+      # FIXME: for some reason this module created config in /opt/ssh
+      $configdir = '/opt/autossh'
     }
   }
 

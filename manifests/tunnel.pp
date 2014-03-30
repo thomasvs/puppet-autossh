@@ -21,7 +21,9 @@ define autossh::tunnel (
   $autossh_maxstart    = undef,
 ) {
 
-  $ssh_config = "/opt/autossh/${service}.conf"
+  include autossh::params
+
+  $ssh_config = "${autossh::params::configdir}/${service}.conf"
 
   if $remote_forwarding == true {
     $template_path = 'autossh/remoteforward.config.erb'
@@ -35,7 +37,7 @@ define autossh::tunnel (
     owner   => $user,
     group   => $group,
     content => template($template_path),
-    require => File['/opt/autossh/'],
+    require => File[$autossh::params::configdir],
   }
 
   autossh::tunnel::config::upstart { $service:
