@@ -27,7 +27,7 @@ define autossh::tunnel (
     $real_remote_user = $remote_user
   }
 
-  $ssh_config = "/opt/autossh/${service}"
+  $ssh_config = "/opt/autossh/${service}.conf"
 
   if $remote_forwarding == true {
     $template_path = 'autossh/remoteforward.config.erb'
