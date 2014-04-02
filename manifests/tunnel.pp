@@ -21,13 +21,9 @@ define autossh::tunnel (
   $autossh_maxstart    = undef,
 ) {
 
-  if (!$remote_user) {
-    $real_remote_user = $user
-  } else {
-    $real_remote_user = $remote_user
-  }
+  include autossh::params
 
-  $ssh_config = "/opt/autossh/${service}.conf"
+  $ssh_config = "${autossh::params::configdir}/${service}.conf"
 
   if $remote_forwarding == true {
     $template_path = 'autossh/remoteforward.config.erb'
@@ -41,21 +37,29 @@ define autossh::tunnel (
     owner   => $user,
     group   => $group,
     content => template($template_path),
-    require => File['/opt/autossh/'],
+    require => File[$autossh::params::configdir],
   }
 
-  file { "/etc/init/${service}.conf":
-    ensure  => file,
-    path    => "/etc/init/${service}.conf",
-    owner   => $user,
-    group   => $group,
-    content => template('autossh/tunnel.conf.erb'),
+  autossh::tunnel::config::upstart { $service:
+    service             => $service,
+    user                => $user,
+    group               => $group,
+    ssh_id_file         => $ssh_id_file,
+    remote_user         => $remote_user,
+    remote_host         => $remote_host,
+    monitor_port        => $monitor_port,
+    autossh_background  => $autossh_background,
+    autossh_gatetime    => $autossh_gatetime,
+    autossh_logfile     => $autossh_logfile,
+    autossh_first_poll  => $autossh_first_poll,
+    autossh_poll        => $autossh_poll,
+    autossh_maxlifetime => $autossh_maxlifetime,
+    autossh_maxstart    => $autossh_maxstart,
+    ssh_config          => $ssh_config,
   }
 
-  service { $service:
-    ensure  => $ensure,
-    enable  => true,
-    require => File[$ssh_config, "/etc/init/${service}.conf"],
+  autossh::tunnel::service::upstart { $service:
+    ensure     => $ensure,
+    ssh_config => $ssh_config,
   }
-
 }
