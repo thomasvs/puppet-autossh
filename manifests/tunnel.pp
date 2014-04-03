@@ -1,5 +1,5 @@
 define autossh::tunnel (
-  $service             = $title,
+  $service             = "autossh-${title}",
   $ensure              = 'running',
   $user                = 'root',
   $group               = 'root',
