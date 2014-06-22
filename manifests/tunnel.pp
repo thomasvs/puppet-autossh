@@ -23,7 +23,7 @@ define autossh::tunnel (
 
   include autossh::params
 
-  $ssh_config = "${autossh::params::configdir}/${service}.conf"
+  $ssh_config = "${autossh::params::configdir}/${title}.conf"
 
   if $remote_forwarding == true {
     $template_path = 'autossh/remoteforward.config.erb'
