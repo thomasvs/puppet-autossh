@@ -18,7 +18,7 @@ define autossh::service (
       path    => "/etc/init/${service}.conf",
       owner   => $user,
       group   => $group,
-      content => template('autossh/tunnel.conf.erb'),
+      content => template('autossh/service/init'),
     }
   
     service { $service:
