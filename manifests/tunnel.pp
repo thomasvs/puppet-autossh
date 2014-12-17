@@ -49,18 +49,15 @@ define autossh::tunnel (
     }
   }
 
-  file { "/etc/init/${service}.conf":
-    ensure  => file,
-    path    => "/etc/init/${service}.conf",
-    owner   => $user,
-    group   => $group,
-    content => template('autossh/tunnel.conf.erb'),
-  }
-
-  service { $service:
-    ensure  => $ensure,
-    enable  => true,
-    require => File[$ssh_config, "/etc/init/${service}.conf"],
+  autossh::service { $service:
+    user             => $user,
+    monitor_port     => $monitor_port,
+    remote_user      => $remote_user,
+    remote_host      => $remote_host,
+    remote_port      => $remote_port,
+    ssh_config       => $ssh_config,
+    ssh_id_file      => $ssh_id_file,
+    real_remote_user => $real_remote_user
   }
 
 }
