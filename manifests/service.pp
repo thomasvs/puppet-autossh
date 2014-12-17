@@ -8,19 +8,45 @@ define autossh::service (
   $ssh_id_file,
   $real_remote_user
 ) {
+  $service = $title
 
-  file { "/etc/init/${service}.conf":
-    ensure  => file,
-    path    => "/etc/init/${service}.conf",
-    owner   => $user,
-    group   => $group,
-    content => template('autossh/tunnel.conf.erb'),
+  include autossh::params
+
+  if $autossh::params::service == 'init' {
+    file { "/etc/init/${service}.conf":
+      ensure  => file,
+      path    => "/etc/init/${service}.conf",
+      owner   => $user,
+      group   => $group,
+      content => template('autossh/tunnel.conf.erb'),
+    }
+  
+    service { $service:
+      ensure  => $ensure,
+      enable  => true,
+      require => File[
+        $ssh_config,
+        "/etc/init/${service}.conf"
+      ],
+    }
   }
 
-  service { $service:
-    ensure  => $ensure,
-    enable  => true,
-    require => File[$ssh_config, "/etc/init/${service}.conf"],
+  if $autossh::params::service == 'systemd' {
+    file { "/lib/systemd/system/${service}.service":
+      ensure  => file,
+      owner   => $user,
+      group   => $group,
+      content => template('autossh/service/systemd'),
+    }
+  
+    service { $service:
+      ensure  => $ensure,
+      enable  => true,
+      require => File[
+        $ssh_config,
+        "/lib/systemd/system/${service}.service"
+      ],
+    }
   }
 
 }
