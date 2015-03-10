@@ -1,4 +1,5 @@
 define autossh::service (
+  $ensure       = running,
   $user         = "root",
   $monitor_port = 0,
   $remote_user  = undef,
