@@ -19,6 +19,9 @@ class autossh::params {
         $service = 'init'
       }
     }
+    /^(Ubuntu)$/: {
+      $service = 'init'
+    }
     default: {
       # FIXME: can we detect systemd and use it?
       fail("Unsupported operating system ${::operatingsystem}")
