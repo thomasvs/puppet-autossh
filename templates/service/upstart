@@ -6,7 +6,7 @@
 
 description "ssh tunnel"
 
-start on (local-filesystems and network-device-up)
+start on (local-filesystems and net-device-up IFACE!=lo)
 stop on runlevel [!12345]
 
 # expect fork
