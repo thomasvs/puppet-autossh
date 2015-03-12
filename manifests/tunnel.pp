@@ -5,9 +5,9 @@
 # This is the main entry point for this module.
 #
 define autossh::tunnel (
+  $ensure              = running,
+  $enable              = true,
   $service             = "autossh-${title}",
-  $ensure              = 'running',
-  $enable              = 'true',
   $user                = 'root',
   $group               = 'root',
   $ssh_id_file         = '~/.ssh/id_rsa',
