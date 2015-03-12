@@ -1,53 +1,25 @@
 define autossh::service (
-  $ensure       = running,
-  $user         = "root",
-  $monitor_port = 0,
-  $remote_user  = undef,
-  $remote_host,
-  $remote_port,
+  $ensure       = 'running',
+  $enable       = 'true',
   $ssh_config,
-  $ssh_id_file,
-  $real_remote_user
 ) {
   $service = $title
 
   include autossh::params
 
-  if $autossh::params::service == 'init' {
-    file { "/etc/init/${service}.conf":
-      ensure  => file,
-      path    => "/etc/init/${service}.conf",
-      owner   => $user,
-      group   => $group,
-      content => template('autossh/service/init'),
-    }
-  
-    service { $service:
-      ensure  => $ensure,
-      enable  => true,
-      require => File[
-        $ssh_config,
-        "/etc/init/${service}.conf"
-      ],
+  if $autossh::params::service == 'upstart' {
+    autossh::tunnel::service::upstart { $service:
+      ensure     => $ensure,
+      enable     => $enable,
+      ssh_config => $ssh_config,
     }
   }
-
+ 
   if $autossh::params::service == 'systemd' {
-    file { "/lib/systemd/system/${service}.service":
-      ensure  => file,
-      owner   => $user,
-      group   => $group,
-      content => template('autossh/service/systemd'),
-    }
-  
-    service { $service:
-      ensure  => $ensure,
-      enable  => true,
-      require => File[
-        $ssh_config,
-        "/lib/systemd/system/${service}.service"
-      ],
+    autossh::tunnel::service::systemd { $service:
+      ensure     => $ensure,
+      enable     => $enable,
+      ssh_config => $ssh_config,
     }
   }
-
 }
