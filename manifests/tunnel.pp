@@ -57,7 +57,6 @@ define autossh::tunnel (
 
   # service-specific config
   autossh::config { $service:
-
     user                => $user,
     ssh_config          => $ssh_config,
     remote_user         => $real_remote_user,

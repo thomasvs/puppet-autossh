@@ -27,7 +27,7 @@ class autossh::params {
       }
     }
     /^(Ubuntu)$/: {
-      $service = 'init'
+      $service = 'upstart'
       # FIXME: for some reason this module created config in /opt/ssh
       $configdir = '/opt/autossh'
     }

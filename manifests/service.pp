@@ -7,7 +7,7 @@ define autossh::service (
 
   include autossh::params
 
-  if $autossh::params::service == 'upstart' {
+  if $autossh::params::service =~ /^upstart/ {
     autossh::tunnel::service::upstart { $service:
       ensure     => $ensure,
       enable     => $enable,

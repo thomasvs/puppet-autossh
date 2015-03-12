@@ -19,23 +19,41 @@ define autossh::config (
 
   include autossh::params
 
-  if $autossh::params::service == 'upstart' {
-    file { "/etc/init/${service}.conf":
-      ensure  => file,
-      path    => "/etc/init/${service}.conf",
-      owner   => $user,
-      group   => $group,
-      content => template('autossh/service/upstart'),
+  if $autossh::params::service =~ /^upstart/ {
+    autossh::tunnel::config::upstart { $service:
+      user                => $user,
+      ssh_config          => $ssh_config,
+      remote_user         => $real_remote_user,
+      remote_host         => $remote_host,
+      remote_port         => $remote_port,        # FIXME: not used?
+      ssh_id_file         => $ssh_id_file,
+      monitor_port        => $monitor_port,
+      autossh_background  => $autossh_background, # FIXME: not used?
+      autossh_gatetime    => $autossh_gatetime,
+      autossh_logfile     => $autossh_logfile,
+      autossh_first_poll  => $autossh_first_poll,
+      autossh_poll        => $autossh_poll,
+      autossh_maxlifetime => $autossh_maxlifetime,
+      autossh_maxstart    => $autossh_maxstart,
     }
   }
 
   if $autossh::params::service == 'systemd' {
-    file { "/lib/systemd/system/${service}.service":
-      ensure  => file,
-      owner   => $user,
-      group   => $group,
-      content => template('autossh/service/systemd'),
+      autossh::tunnel::config::systemd { $service:
+      user                => $user,
+      ssh_config          => $ssh_config,
+      remote_user         => $real_remote_user,
+      remote_host         => $remote_host,
+      remote_port         => $remote_port,        # FIXME: not used?
+      ssh_id_file         => $ssh_id_file,
+      monitor_port        => $monitor_port,
+      autossh_background  => $autossh_background, # FIXME: not used?
+      autossh_gatetime    => $autossh_gatetime,
+      autossh_logfile     => $autossh_logfile,
+      autossh_first_poll  => $autossh_first_poll,
+      autossh_poll        => $autossh_poll,
+      autossh_maxlifetime => $autossh_maxlifetime,
+      autossh_maxstart    => $autossh_maxstart,
     }
   }
-
 }
