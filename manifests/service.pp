@@ -1,6 +1,6 @@
 define autossh::service (
-  $ensure       = 'running',
-  $enable       = 'true',
+  $ensure       = running,
+  $enable       = true,
   $ssh_config,
 ) {
   $service = $title
