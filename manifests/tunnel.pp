@@ -77,7 +77,6 @@ define autossh::tunnel (
   autossh::service { $service:
     ensure     => $ensure,
     enable     => $enable,
-    user       => $user,
     ssh_config => $ssh_config,
   }
 }

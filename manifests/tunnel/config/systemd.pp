@@ -28,10 +28,16 @@ define autossh::tunnel::config::systemd (
     $real_remote_user = $remote_user
   }
 
+  exec { "${service}-systemd-daemon-reload":
+    command     => '/usr/bin/systemctl daemon-reload',
+    refreshonly => true,
+  }
+
   file { "/lib/systemd/system/${service}.service":
     ensure  => file,
     owner   => $user,
     group   => $group,
     content => template('autossh/service/systemd'),
+    notify  => Exec["${service}-systemd-daemon-reload"],
   }
 }

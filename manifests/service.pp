@@ -1,7 +1,6 @@
 define autossh::service (
   $ensure       = 'running',
   $enable       = 'true',
-  $user         = 'root',
   $ssh_config,
 ) {
   $service = $title
@@ -9,27 +8,18 @@ define autossh::service (
   include autossh::params
 
   if $autossh::params::service == 'upstart' {
+    autossh::tunnel::service::upstart { $service:
+      ensure     => $ensure,
+      enable     => $enable,
+      ssh_config => $ssh_config,
+    }
+  }
  
-    service { $service:
-      ensure  => $ensure,
-      enable  => $enable,
-      require => File[
-        $ssh_config,
-        "/etc/init/${service}.conf"
-      ],
-    }
-  }
-
   if $autossh::params::service == 'systemd' {
-  
-    service { $service:
-      ensure  => $ensure,
-      enable  => $enable,
-      require => File[
-        $ssh_config,
-        "/lib/systemd/system/${service}.service"
-      ],
+    autossh::tunnel::service::systemd { $service:
+      ensure     => $ensure,
+      enable     => $enable,
+      ssh_config => $ssh_config,
     }
   }
-
 }
