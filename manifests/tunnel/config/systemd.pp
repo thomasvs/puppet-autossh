@@ -11,6 +11,7 @@ define autossh::tunnel::config::systemd (
   $ssh_id_file         = '~/.ssh/id_rsa',
   $remote_user         = undef,
   $remote_host,
+  $remote_port         = 0,        # FIXME: not used?
   $monitor_port        = 0,
   $autossh_background  = false,
   $autossh_gatetime    = undef,
