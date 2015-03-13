@@ -19,6 +19,12 @@ define autossh::config (
 
   include autossh::params
 
+  if (!$remote_user) {
+    $real_remote_user = $user
+  } else {
+    $real_remote_user = $remote_user
+  }
+
   if $autossh::params::service =~ /^upstart/ {
     autossh::tunnel::config::upstart { $service:
       user                => $user,

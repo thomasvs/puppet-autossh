@@ -23,12 +23,6 @@ define autossh::tunnel::config::systemd (
   $ssh_config,
 ) {
 
-  if (!$remote_user) {
-    $real_remote_user = $user
-  } else {
-    $real_remote_user = $remote_user
-  }
-
   exec { "${service}-systemd-daemon-reload":
     command     => '/usr/bin/systemctl daemon-reload',
     refreshonly => true,
