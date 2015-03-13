@@ -22,12 +22,6 @@ define autossh::tunnel::config::upstart (
   $ssh_config,
 ) {
 
-  if (!$remote_user) {
-    $real_remote_user = $user
-  } else {
-    $real_remote_user = $remote_user
-  }
-
   file { "/etc/init/${service}.conf":
     ensure  => file,
     owner   => $user,
