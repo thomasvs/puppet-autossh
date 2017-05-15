@@ -11,6 +11,7 @@ define autossh::tunnel::config::upstart (
   $remote_user         = undef,
   $remote_host,
   $remote_port         = 0,        # FIXME: not used?
+  $ssh_port            = 22,
   $monitor_port        = 0,
   $autossh_background  = false,
   $autossh_gatetime    = undef,
