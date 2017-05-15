@@ -1,5 +1,6 @@
 define autossh::config (
   $user         = 'root',
+  $ssh_port     = 22,
   $monitor_port = 0,
   $remote_user  = undef,
   $remote_host,
@@ -33,6 +34,7 @@ define autossh::config (
       remote_host         => $remote_host,
       remote_port         => $remote_port,        # FIXME: not used?
       ssh_id_file         => $ssh_id_file,
+      ssh_port            => $ssh_port,
       monitor_port        => $monitor_port,
       autossh_background  => $autossh_background, # FIXME: not used?
       autossh_gatetime    => $autossh_gatetime,
@@ -52,6 +54,7 @@ define autossh::config (
       remote_host         => $remote_host,
       remote_port         => $remote_port,        # FIXME: not used?
       ssh_id_file         => $ssh_id_file,
+      ssh_port            => $ssh_port,
       monitor_port        => $monitor_port,
       autossh_background  => $autossh_background, # FIXME: not used?
       autossh_gatetime    => $autossh_gatetime,

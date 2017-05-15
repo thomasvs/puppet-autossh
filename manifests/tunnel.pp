@@ -17,6 +17,7 @@ define autossh::tunnel (
   $remote_user         = undef,
   $remote_host,
   $remote_port,
+  $ssh_port            = 22,
   $monitor_port        = 0,
   $remote_forwarding   = true,
   $autossh_background  = false,
@@ -63,6 +64,7 @@ define autossh::tunnel (
     remote_host         => $remote_host,
     remote_port         => $remote_port,        # FIXME: not used?
     ssh_id_file         => $ssh_id_file,
+    ssh_port            => $ssh_port,
     monitor_port        => $monitor_port,
     autossh_background  => $autossh_background, # FIXME: not used?
     autossh_gatetime    => $autossh_gatetime,
