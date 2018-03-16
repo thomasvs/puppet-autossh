@@ -25,7 +25,8 @@ define autossh::tunnel::config::systemd (
 ) {
 
   exec { "${service}-systemd-daemon-reload":
-    command     => '/usr/bin/systemctl daemon-reload',
+    path        => '/bin:/usr/bin',
+    command     => 'systemctl daemon-reload',
     refreshonly => true,
   }
 
