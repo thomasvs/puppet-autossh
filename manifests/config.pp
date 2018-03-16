@@ -7,7 +7,6 @@ define autossh::config (
   $remote_port,
   $ssh_config,
   $ssh_id_file,
-  $remote_user,
   $autossh_background  = false,
   $autossh_gatetime    = undef,
   $autossh_logfile     = undef,
