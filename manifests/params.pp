@@ -31,6 +31,11 @@ class autossh::params {
       # FIXME: for some reason this module created config in /opt/ssh
       $configdir = '/opt/autossh'
     }
+    /^(Debian)$/: {
+      $service = 'systemd'
+      # FIXME: for some reason this module created config in /opt/ssh
+      $configdir = '/opt/autossh'
+    }
     default: {
       # FIXME: can we detect systemd and use it?
       fail("Unsupported operating system ${::operatingsystem}")
